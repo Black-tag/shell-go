@@ -24,11 +24,20 @@ func main() {
 			os.Exit(1)
 		}
 		command = strings.TrimSpace(command)
-		if command == "exit" {
-			break
+		
+		commandArray := strings.Split(command, " ")
+		switch commandArray[0] {
+		case "exit":
+			return
+		
+		case "echo":
+			fmt.Println(strings.Join(commandArray[1:], " "))
+
+		default:
+			fmt.Println(command + ": command not found")
+
 		}
-		// evaluate - step 2
-		fmt.Println(command + ": command not found")
+		
 
 
 	}
