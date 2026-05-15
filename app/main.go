@@ -13,7 +13,7 @@ func isBuiltin(funcName string) string {
 	builtIns := []string{"echo", "exit", "type"}
 	for i := range builtIns {
 		if funcName  == builtIns[i] {
-			return fmt.Sprintf("%s is a builtin", funcName)
+			return fmt.Sprintf("%s is a shell builtin", funcName)
 		}
 		
 	}
