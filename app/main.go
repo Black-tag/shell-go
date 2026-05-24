@@ -11,10 +11,7 @@ import (
 
 
 
-type Cmd struct {
-	path string
-	args []string
-}
+
 var _ = fmt.Print
 func isBuiltin(command string, wholeCommand []string) string {
 	builtIns := []string{"echo", "exit", "type"}
@@ -27,27 +24,8 @@ func isBuiltin(command string, wholeCommand []string) string {
 	}
 
 	path , err := exec.LookPath(command)
-	
-
-	cmd := Cmd{
-		path: path,
-		args: wholeCommand,
-
-	}
-	
 	if err == nil {
-		cmd := exec.Command(cmd.path, cmd.args...)
-
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		cmd.Stdin = os.Stdin
-
-		err = cmd.Run()
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
+		return fmt.Sprintf("%s is %s", command, path)
 	}
 	return fmt.Sprintf("%s: not found", command)
 	
@@ -79,7 +57,16 @@ func main() {
 			fmt.Println(isBuiltin(commandArray[1], commandArray))
 
 		default:
-			fmt.Println(command + ": command not found")
+			_, err := exec.LookPath(commandArray[0])
+			if err != nil {
+				fmt.Println(command + ": command not found")
+			} else {
+				cmd := exec.Command(commandArray[0], commandArray[1:]...)
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
+				cmd.Stdin = os.Stdin
+				cmd.Run()
+			}
 
 		}
 		
