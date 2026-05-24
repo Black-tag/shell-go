@@ -4,31 +4,38 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
-// Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
+
 var _ = fmt.Print
-func isBuiltin(funcName string) string {
+func isBuiltin(command string) string {
 	builtIns := []string{"echo", "exit", "type"}
-	for i := range builtIns {
-		if funcName  == builtIns[i] {
-			return fmt.Sprintf("%s is a shell builtin", funcName)
+	for _, builtIn := range builtIns {
+		if command  == builtIn {
+			
+			return fmt.Sprintf("%s is a shell builtin", command)
 		}
 		
 	}
-	return fmt.Sprintf("%s: not found", funcName)
+
+	path , err := exec.LookPath(command)
+	if err == nil {
+		return fmt.Sprintf("%s is %s", command, path)
+	}
+	return fmt.Sprintf("%s: not found", command)
 	
 	}
 
 func main() {
-	// TODO: Uncomment the code below to pass the first stage
+
 	
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("$ ")
 
-		// read - step 1
+	
 		command, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Error reading input:", err)
