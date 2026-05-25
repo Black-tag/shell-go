@@ -6,6 +6,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	
 )
 
 
@@ -14,7 +16,7 @@ import (
 
 var _ = fmt.Print
 func isBuiltin(command string, wholeCommand []string) string {
-	builtIns := []string{"echo", "exit", "type"}
+	builtIns := []string{"echo", "exit", "type", "pwd", "cd"}
 	for _, builtIn := range builtIns {
 		if command  == builtIn {
 			
@@ -30,6 +32,46 @@ func isBuiltin(command string, wholeCommand []string) string {
 	return fmt.Sprintf("%s: not found", command)
 	
 	}
+func getPwd() string {
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return ""
+	}
+	
+	return pwd
+}
+func dealCd(commandArray []string) {
+	if len(commandArray) < 2 {
+		return
+	}
+
+	dirToChange := commandArray[1]
+	if dirToChange == "~" {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			fmt.Println("Could not find home directory for user")
+			return
+		}
+
+		dirToChange = homeDir
+	}
+
+	info, err := os.Stat(dirToChange)
+
+	
+	if err != nil || !info.IsDir() {
+		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
+		return
+	}
+
+	
+	err = os.Chdir(dirToChange)
+	if err != nil {
+		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
+	}
+}
 
 func main() {
 
@@ -55,6 +97,11 @@ func main() {
 			fmt.Println(strings.Join(commandArray[1:], " "))
 		case "type":
 			fmt.Println(isBuiltin(commandArray[1], commandArray))
+		case "pwd":
+			fmt.Println(getPwd())
+		case "cd":
+			dealCd(commandArray)
+
 
 		default:
 			_, err := exec.LookPath(commandArray[0])
