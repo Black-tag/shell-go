@@ -48,16 +48,25 @@ func dealCd(commandArray []string) {
 	}
 
 	dirToChange := commandArray[1]
+	if dirToChange == "~" {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			fmt.Println("Could not find home directory for user")
+			return
+		}
+
+		dirToChange = homeDir
+	}
 
 	info, err := os.Stat(dirToChange)
 
-	// path does not exist
+	
 	if err != nil || !info.IsDir() {
 		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
 		return
 	}
 
-	// change directory
+	
 	err = os.Chdir(dirToChange)
 	if err != nil {
 		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
