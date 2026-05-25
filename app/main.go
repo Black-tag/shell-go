@@ -6,6 +6,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	
 )
 
 
@@ -14,7 +16,7 @@ import (
 
 var _ = fmt.Print
 func isBuiltin(command string, wholeCommand []string) string {
-	builtIns := []string{"echo", "exit", "type", "pwd"}
+	builtIns := []string{"echo", "exit", "type", "pwd", "cd"}
 	for _, builtIn := range builtIns {
 		if command  == builtIn {
 			
@@ -39,6 +41,27 @@ func getPwd() string {
 	}
 	
 	return pwd
+}
+func dealCd(commandArray []string) {
+	if len(commandArray) < 2 {
+		return
+	}
+
+	dirToChange := commandArray[1]
+
+	info, err := os.Stat(dirToChange)
+
+	// path does not exist
+	if err != nil || !info.IsDir() {
+		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
+		return
+	}
+
+	// change directory
+	err = os.Chdir(dirToChange)
+	if err != nil {
+		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
+	}
 }
 
 func main() {
@@ -67,6 +90,8 @@ func main() {
 			fmt.Println(isBuiltin(commandArray[1], commandArray))
 		case "pwd":
 			fmt.Println(getPwd())
+		case "cd":
+			dealCd(commandArray)
 
 
 		default:
