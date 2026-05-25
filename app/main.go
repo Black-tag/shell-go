@@ -30,13 +30,14 @@ func isBuiltin(command string, wholeCommand []string) string {
 	return fmt.Sprintf("%s: not found", command)
 	
 	}
-func getPwd(command string) string {
+func getPwd() string {
 
 	pwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return ""
 	}
+	
 	return pwd
 }
 
@@ -65,7 +66,7 @@ func main() {
 		case "type":
 			fmt.Println(isBuiltin(commandArray[1], commandArray))
 		case "pwd":
-			getPwd(command)
+			fmt.Println(getPwd())
 
 
 		default:
