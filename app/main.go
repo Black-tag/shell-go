@@ -125,6 +125,9 @@ func main() {
 		command = strings.TrimSpace(command)
 		
 		commandArray := parseCommand(command)
+		if len(commandArray) == 0 {
+			continue
+		}
 		switch commandArray[0] {
 		case "exit":
 			return
