@@ -6,21 +6,15 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-
-	
 )
 
-
-
-
-
 var _ = fmt.Print
+
 func parseCommand(input string) []string {
 	var tokens []string
 	var current strings.Builder
 
 	inSingleQuotes := false
-
 
 	for _, ch := range input {
 
@@ -48,26 +42,23 @@ func parseCommand(input string) []string {
 
 }
 
-
-
-
 func isBuiltin(command string, wholeCommand []string) string {
 	builtIns := []string{"echo", "exit", "type", "pwd", "cd"}
 	for _, builtIn := range builtIns {
-		if command  == builtIn {
-			
+		if command == builtIn {
+
 			return fmt.Sprintf("%s is a shell builtin", command)
 		}
-		
+
 	}
 
-	path , err := exec.LookPath(command)
+	path, err := exec.LookPath(command)
 	if err == nil {
 		return fmt.Sprintf("%s is %s", command, path)
 	}
 	return fmt.Sprintf("%s: not found", command)
-	
-	}
+
+}
 func getPwd() string {
 
 	pwd, err := os.Getwd()
@@ -75,7 +66,7 @@ func getPwd() string {
 		fmt.Println("Error:", err)
 		return ""
 	}
-	
+
 	return pwd
 }
 func dealCd(commandArray []string) {
@@ -96,13 +87,11 @@ func dealCd(commandArray []string) {
 
 	info, err := os.Stat(dirToChange)
 
-	
 	if err != nil || !info.IsDir() {
 		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
 		return
 	}
 
-	
 	err = os.Chdir(dirToChange)
 	if err != nil {
 		fmt.Printf("cd: %s: No such file or directory\n", dirToChange)
@@ -111,19 +100,17 @@ func dealCd(commandArray []string) {
 
 func main() {
 
-	
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("$ ")
 
-	
 		command, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Error reading input:", err)
 			os.Exit(1)
 		}
 		command = strings.TrimSpace(command)
-		
+
 		commandArray := parseCommand(command)
 		if len(commandArray) == 0 {
 			continue
@@ -131,7 +118,7 @@ func main() {
 		switch commandArray[0] {
 		case "exit":
 			return
-		
+
 		case "echo":
 			fmt.Println(strings.Join(commandArray[1:], " "))
 		case "type":
@@ -140,7 +127,6 @@ func main() {
 			fmt.Println(getPwd())
 		case "cd":
 			dealCd(commandArray)
-
 
 		default:
 			_, err := exec.LookPath(commandArray[0])
@@ -155,11 +141,7 @@ func main() {
 			}
 
 		}
-		
-
 
 	}
-	
-	
-}
 
+}
