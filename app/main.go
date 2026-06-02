@@ -15,6 +15,42 @@ import (
 
 
 var _ = fmt.Print
+func parseCommand(input string) []string {
+	var tokens []string
+	var current strings.Builder
+
+	inSingleQuotes := false
+
+
+	for _, ch := range input {
+
+		switch {
+		case ch == '\'':
+			inSingleQuotes = !inSingleQuotes
+
+		case (ch == ' ' || ch == '\t') && !inSingleQuotes:
+			if current.Len() > 0 {
+				tokens = append(tokens, current.String())
+				current.Reset()
+			}
+
+		default:
+			current.WriteRune(ch)
+
+		}
+	}
+
+	if current.Len() > 0 {
+		tokens = append(tokens, current.String())
+	}
+
+	return tokens
+
+}
+
+
+
+
 func isBuiltin(command string, wholeCommand []string) string {
 	builtIns := []string{"echo", "exit", "type", "pwd", "cd"}
 	for _, builtIn := range builtIns {
@@ -88,7 +124,7 @@ func main() {
 		}
 		command = strings.TrimSpace(command)
 		
-		commandArray := strings.Split(command, " ")
+		commandArray := parseCommand(command)
 		switch commandArray[0] {
 		case "exit":
 			return
