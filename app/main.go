@@ -15,23 +15,46 @@ func parseCommand(input string) []string {
 	var current strings.Builder
 
 	inSingleQuotes := false
+	inDoubleQuotes := false
 
 	for _, ch := range input {
 
+		// switch {
+		// case ch == '\'':
+		// 	inSingleQuotes = !inSingleQuotes
+
+		// case (ch == ' ' || ch == '\t') && !inSingleQuotes:
+		// 	if current.Len() > 0 {
+		// 		tokens = append(tokens, current.String())
+		// 		current.Reset()
+		// 	}
+		// case ch == '"' && !inSingleQuotes:
+    	// 	inDoubleQuotes = !inDoubleQuotes
+
+		// default:
+		// 	current.WriteRune(ch)
+
+		// }
 		switch {
-		case ch == '\'':
-			inSingleQuotes = !inSingleQuotes
 
-		case (ch == ' ' || ch == '\t') && !inSingleQuotes:
-			if current.Len() > 0 {
-				tokens = append(tokens, current.String())
-				current.Reset()
-			}
+			case ch == '\'' && !inDoubleQuotes:
+				inSingleQuotes = !inSingleQuotes
 
-		default:
-			current.WriteRune(ch)
+			case ch == '"' && !inSingleQuotes:
+				inDoubleQuotes = !inDoubleQuotes
 
-		}
+			case (ch == ' ' || ch == '\t') &&
+				!inSingleQuotes &&
+				!inDoubleQuotes:
+
+				if current.Len() > 0 {
+					tokens = append(tokens, current.String())
+					current.Reset()
+				}
+
+			default:
+				current.WriteRune(ch)
+}
 	}
 
 	if current.Len() > 0 {
