@@ -21,7 +21,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 	case "exit":
 		// ned to fill
-		return false
+		os.Exit(0)
 
 	case "echo":
 		// later will fill
