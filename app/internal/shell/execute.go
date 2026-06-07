@@ -9,27 +9,20 @@ import (
 	"github.com/codecrafters-io/shell-starter-go/app/internal/parser"
 )
 
-
-
-
-
 func (s *Shell) Execute(cmd parser.Command) {
-	
 
 	switch cmd.Name {
-		
 
 	case "exit":
-		// ned to fill
+
 		os.Exit(0)
 
 	case "echo":
-		// later will fill
 		builtins.Echo(cmd.Args)
 
 	case "cd":
 		builtins.Cd(cmd.Args)
-	
+
 	case "pwd":
 		pwd, err := builtins.Pwd()
 		if err != nil {
@@ -39,12 +32,12 @@ func (s *Shell) Execute(cmd parser.Command) {
 		fmt.Println(pwd)
 
 	default:
-		// run external command 
+		// run external command
 		path, err := exec.LookPath(cmd.Name)
 
 		if err != nil {
 			fmt.Printf("%s: command not found\n", cmd.Name)
-        	return
+			return
 
 		}
 		command := exec.Command(path, cmd.Args...)

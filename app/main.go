@@ -6,15 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codecrafters-io/shell-starter-go/app/internal/shell"
 	"github.com/codecrafters-io/shell-starter-go/app/internal/parser"
+	"github.com/codecrafters-io/shell-starter-go/app/internal/shell"
 	// "github.com/codecrafters-io/shell-starter-go/app/internal/builtins"
-
-
-
 )
-
-
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)

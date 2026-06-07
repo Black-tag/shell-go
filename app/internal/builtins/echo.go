@@ -5,7 +5,6 @@ import (
 	"strings"
 )
 
-
 func Echo(args []string) {
 	fmt.Println(strings.Join(args, " "))
 }
