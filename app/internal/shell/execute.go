@@ -30,6 +30,9 @@ func (s *Shell) Execute(cmd parser.Command) {
 			return
 		}
 		fmt.Println(pwd)
+		
+	case "type":
+		builtins.Type(cmd.Args)
 
 	default:
 		// run external command
