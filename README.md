@@ -164,7 +164,7 @@ The shell is organized into separate modules for parsing, execution, and built-i
 ## ▶️ Running Locally
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Black-tag/shell-go.git
 cd goshell
 
 go run ./app
