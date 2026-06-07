@@ -15,7 +15,7 @@ var BUiltins = map[string]bool{
 
 func Type(args []string) {
 	if BUiltins[args[0]] {
-		fmt.Printf("%s is a shell builtin\n", target)
+		fmt.Printf("%s is a shell builtin\n", args[0])
     	return
 
 	}
