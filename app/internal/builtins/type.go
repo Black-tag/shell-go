@@ -1,10 +1,13 @@
 package builtins
 
-import "fmt"
+import (
+	"fmt"
+	"os/exec"
+)
 
 
 
-var BUiltins = map[string]bool{
+var Builtins = map[string]bool{
 	"echo": true,
 	"exit": true,
 	"type": true,
@@ -14,10 +17,18 @@ var BUiltins = map[string]bool{
 }
 
 func Type(args []string) {
-	if BUiltins[args[0]] {
-		fmt.Printf("%s is a shell builtin\n", args[0])
-    	return
+	target := args[0]
 
+	if Builtins[target] {
+		fmt.Printf("%s is a shell builtin\n", target)
+		return
 	}
 
+	path, err := exec.LookPath(target)
+	if err == nil {
+		fmt.Printf("%s is %s\n", target, path)
+		return
+	}
+
+	fmt.Printf("%s: not found\n", target)
 }
