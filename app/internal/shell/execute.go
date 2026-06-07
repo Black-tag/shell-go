@@ -30,7 +30,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 			return
 		}
 		fmt.Println(pwd)
-		
+
 	case "type":
 		builtins.Type(cmd.Args)
 
@@ -43,7 +43,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 			return
 
 		}
-		command := exec.Command(path, cmd.Args...)
+		command := exec.Command(cmd.Name, cmd.Args...)
 		command.Stdout = os.Stdout
 		command.Stderr = os.Stderr
 		command.Stdin = os.Stdin
