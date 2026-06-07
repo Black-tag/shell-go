@@ -36,7 +36,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 	default:
 		// run external command
-		path, err := exec.LookPath(cmd.Name)
+		_, err := exec.LookPath(cmd.Name)
 
 		if err != nil {
 			fmt.Printf("%s: command not found\n", cmd.Name)
