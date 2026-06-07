@@ -165,7 +165,7 @@ The shell is organized into separate modules for parsing, execution, and built-i
 
 ```bash
 git clone https://github.com/Black-tag/shell-go.git
-cd goshell
+cd shell-go
 
 go run ./app
 ```
