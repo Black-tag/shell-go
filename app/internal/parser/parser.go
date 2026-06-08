@@ -58,6 +58,9 @@ func Parse(input string) Command {
 	if current.Len() > 0 {
 		tokens = append(tokens, current.String())
 	}
+	if len(tokens) == 0 {
+		return Command{}
+	}
 
 	return Command{
 		Name: tokens[0],
