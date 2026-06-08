@@ -36,6 +36,18 @@ func Parse(input string) Command {
 				current.WriteRune(next)
 				i++
 			}
+		case ch == '\\' && inDoubleQuotes:
+			if i+1 < len(input) {
+				next := rune(input[i+1])
+
+				if next == '\\' || next == '"' {
+					current.WriteRune(next)
+					i++
+				} else {
+					current.WriteRune('\\')
+				}
+			}
+		
 			
 
 		default:
