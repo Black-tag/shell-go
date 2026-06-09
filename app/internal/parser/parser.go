@@ -84,7 +84,7 @@ func Parse(input string) Command {
 	return Command{
 		Name: args[0],
 		Args: args[1:],
-		stderrRedirect: redirect,
+		StdoutRedirect: redirect,
 	}
 
 }

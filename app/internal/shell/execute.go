@@ -44,7 +44,23 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		}
 		command := exec.Command(cmd.Name, cmd.Args...)
-		command.Stdout = os.Stdout
+
+		var output *os.File
+
+		if cmd.StdoutRedirect != "" {
+			file, err := os.Create(cmd.StdoutRedirect)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			output = file
+			defer output.Close()
+			command.Stdout = output
+		} else {
+			command.Stdout = os.Stdout
+
+		} 
+		
 		command.Stderr = os.Stderr
 		command.Stdin = os.Stdin
 
