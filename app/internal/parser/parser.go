@@ -1,9 +1,8 @@
 package parser
 
 import (
+	"fmt"
 	"strings"
-
-	
 )
 
 func Parse(input string) Command {
@@ -73,6 +72,8 @@ func Parse(input string) Command {
 	if len(tokens) == 0 {
 		return Command{}
 	}
+	fmt.Printf("tokens=%#v\n", tokens)
+	fmt.Printf("args=%#v\n", tokens[1:])
 
 	return Command{
 		Name: tokens[0],
