@@ -65,6 +65,8 @@ func (s *Shell) Execute(cmd parser.Command) {
 		
 		
 		command.Stdout = out
+		command.Stderr = os.Stderr
+		command.Stdin = os.Stdin
 
 		command.Run()
 	}
