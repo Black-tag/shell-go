@@ -14,14 +14,6 @@ func Parse(input string) Command {
 	inDoubleQuotes := false
 
 	for i := 0; i< len(input); i++ {
-		if tokens[i] == ">" {
-			if i+1 < len(tokens) {
-			redirect = tokens[i+1]
-			}
-			i++
-			continue
-
-		}
 		
 		ch := rune(input[i])
 
@@ -69,15 +61,29 @@ func Parse(input string) Command {
 	if current.Len() > 0 {
 		tokens = append(tokens, current.String())
 	}
-	if len(tokens) == 0 {
+	var args []string
+
+	for i := 0; i < len(tokens); i++ {
+		if tokens[i] == ">" {
+			if i+1 < len(tokens) {
+				redirect = tokens[i+1]
+			}
+			i++ // skip filename
+			continue
+		}
+
+		args = append(args, tokens[i])
+	}
+
+	if len(args) == 0 {
 		return Command{}
 	}
-	fmt.Printf("tokens=%#v\n", tokens)
-	fmt.Printf("args=%#v\n", tokens[1:])
+	// fmt.Printf("tokens=%#v\n", tokens)
+	// fmt.Printf("args=%#v\n", tokens[1:])
 
 	return Command{
-		Name: tokens[0],
-		Args: tokens[1:],
+		Name: args[0],
+		Args: args[1:],
 		stderrRedirect: redirect,
 	}
 
