@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func (s *Shell) Execute(cmd parser.Command) {
+	var out io.Writer = os.Stdout
 
 	switch cmd.Name {
 
@@ -18,7 +20,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		os.Exit(0)
 
 	case "echo":
-		builtins.Echo(cmd.Args)
+		builtins.Echo(cmd.Args, out)
 
 	case "cd":
 		builtins.Cd(cmd.Args)
