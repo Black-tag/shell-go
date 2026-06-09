@@ -2,16 +2,28 @@ package parser
 
 import (
 	"strings"
+
+	
 )
 
 func Parse(input string) Command {
 	var tokens []string
 	var current strings.Builder
+	var redirect string
 
 	inSingleQuotes := false
 	inDoubleQuotes := false
 
 	for i := 0; i< len(input); i++ {
+		if tokens[i] == ">" {
+			if i+1 < len(tokens) {
+			redirect = tokens[i+1]
+			}
+			i++
+			continue
+
+		}
+		
 		ch := rune(input[i])
 
 		switch {
@@ -65,6 +77,7 @@ func Parse(input string) Command {
 	return Command{
 		Name: tokens[0],
 		Args: tokens[1:],
+		stderrRedirect: redirect,
 	}
 
 }
