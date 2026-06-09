@@ -64,7 +64,7 @@ func Parse(input string) Command {
 	var args []string
 
 	for i := 0; i < len(tokens); i++ {
-		if tokens[i] == ">" {
+		if tokens[i] == ">" || tokens[i] == "1>" {
 			if i+1 < len(tokens) {
 				redirect = tokens[i+1]
 			}
