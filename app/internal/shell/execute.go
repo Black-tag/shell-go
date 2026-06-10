@@ -11,8 +11,11 @@ import (
 )
 
 func (s *Shell) Execute(cmd parser.Command) {
-	var out io.Writer = os.Stdout
-	// var output *os.File
+	var stdout io.Writer = os.Stdout
+	var stderr io.Writer = os.Stderr
+	
+	
+	
 
 	if cmd.StdoutRedirect != "" || cmd.StderrRedirect  != ""{
 		file, err := os.Create(cmd.StdoutRedirect)
@@ -22,7 +25,18 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 		
 		defer file.Close()
-		out = file
+		stdout = file
+		
+	}
+	if cmd.StderrRedirect  != ""{
+		file, err := os.Create(cmd.StderrRedirect)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		
+		defer file.Close()
+		stderr = file
 		
 	}
 
@@ -36,7 +50,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		os.Exit(0)
 
 	case "echo":
-		builtins.Echo(cmd.Args, out)
+		builtins.Echo(cmd.Args, stdout)
 
 	case "cd":
 		builtins.Cd(cmd.Args)
@@ -65,8 +79,8 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		
 		
-		command.Stdout = out
-		command.Stderr = out
+		command.Stdout = stdout
+		command.Stderr = stderr
 		command.Stdin = os.Stdin
 
 		command.Run()
