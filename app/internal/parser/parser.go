@@ -89,12 +89,14 @@ func Parse(input string) Command {
 				stdoutAppend = true
 
 			}
+			i++
 		case "2>>":
 			if i+1 < len(tokens) {
 				stderrRedirect = tokens[i+1]
 				stderrAppend = true
 
 			}
+			i++
 
 
 		default:
