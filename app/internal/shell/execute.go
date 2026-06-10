@@ -14,17 +14,18 @@ func (s *Shell) Execute(cmd parser.Command) {
 	var out io.Writer = os.Stdout
 	// var output *os.File
 
-		if cmd.StdoutRedirect != "" {
-			file, err := os.Create(cmd.StdoutRedirect)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			
-			defer file.Close()
-			out = file
-			
-		} 
+	if cmd.StdoutRedirect != "" || cmd.StderrRedirect  != ""{
+		file, err := os.Create(cmd.StdoutRedirect)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		
+		defer file.Close()
+		out = file
+		
+	}
+
 
 		
 
