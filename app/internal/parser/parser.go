@@ -63,17 +63,6 @@ func Parse(input string) Command {
 	}
 	var args []string
 
-	// for i := 0; i < len(tokens); i++ {
-	// 	if tokens[i] == ">" || tokens[i] == "1>" || tokens[i] == "2>" {
-	// 		if i+1 < len(tokens) {
-	// 			redirect = tokens[i+1]
-	// 		}
-	// 		i++ // skip filename
-	// 		continue
-	// 	}
-
-	// 	args = append(args, tokens[i])
-	// }
 	var stdoutRedirect string
 	var stderrRedirect string
 
@@ -101,6 +90,7 @@ func Parse(input string) Command {
 	if len(args) == 0 {
 		return Command{}
 	}
+	
 	
 
 	return Command{
