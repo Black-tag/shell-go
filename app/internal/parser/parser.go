@@ -8,7 +8,7 @@ import (
 func Parse(input string) Command {
 	var tokens []string
 	var current strings.Builder
-	var redirect string
+	
 
 	inSingleQuotes := false
 	inDoubleQuotes := false
