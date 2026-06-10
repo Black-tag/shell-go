@@ -39,11 +39,11 @@ func (s *Shell) Execute(cmd parser.Command) {
 		stderr = file
 		
 	}
-	fmt.Printf(
-    "stdout=%q stderr=%q\n",
-    cmd.StdoutRedirect,
-    cmd.StderrRedirect,
-	)
+	// fmt.Printf(
+    // "stdout=%q stderr=%q\n",
+    // cmd.StdoutRedirect,
+    // cmd.StderrRedirect,
+	// )
 
 
 		
