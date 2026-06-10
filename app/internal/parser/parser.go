@@ -65,6 +65,8 @@ func Parse(input string) Command {
 
 	var stdoutRedirect string
 	var stderrRedirect string
+	var stdoutAppend bool
+	var stderrAppend bool
 
 	for i := 0; i < len(tokens); i++ {
 
@@ -81,6 +83,19 @@ func Parse(input string) Command {
 				stderrRedirect = tokens[i+1]
 			}
 			i++
+		case ">>", "1>>":
+			if i+1 < len(tokens) {
+				stdoutRedirect = tokens[i+1]
+				stdoutAppend = true
+
+			}
+		case "2>>":
+			if i+1 < len(tokens) {
+				stderrRedirect = tokens[i+1]
+				stderrAppend = true
+
+			}
+
 
 		default:
 			args = append(args, tokens[i])
@@ -98,6 +113,8 @@ func Parse(input string) Command {
 		Args: args[1:],
 		StdoutRedirect: stdoutRedirect,
 		StderrRedirect: stderrRedirect,
+		StdoutAppend: stdoutAppend,
+		StderrAppend: stderrAppend,
 	}
 
 }

@@ -5,4 +5,6 @@ type Command struct {
 	Args []string
 	StdoutRedirect string
 	StderrRedirect string
+	StdoutAppend bool
+	StderrAppend bool
 }

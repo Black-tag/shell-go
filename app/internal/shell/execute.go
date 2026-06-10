@@ -17,27 +17,71 @@ func (s *Shell) Execute(cmd parser.Command) {
 	
 	
 
+	// if cmd.StdoutRedirect != "" {
+	// 	file, err := os.Create(cmd.StdoutRedirect)
+	// 	if err != nil {
+	// 		fmt.Println(err)
+	// 		return
+	// 	}
+		
+	// 	defer file.Close()
+	// 	stdout = file
+		
+	// }
 	if cmd.StdoutRedirect != "" {
-		file, err := os.Create(cmd.StdoutRedirect)
+		var file *os.File
+		var err error
+
+		if cmd.StdoutAppend {
+			file, err = os.OpenFile(
+				cmd.StdoutRedirect,
+				os.O_CREATE|os.O_WRONLY|os.O_APPEND,
+				0644,
+			)
+		} else {
+			file, err = os.Create(cmd.StdoutRedirect)
+		}
+
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		
+
 		defer file.Close()
 		stdout = file
-		
 	}
-	if cmd.StderrRedirect  != ""{
-		file, err := os.Create(cmd.StderrRedirect)
+	// if cmd.StderrRedirect  != ""{
+	// 	file, err := os.Create(cmd.StderrRedirect)
+	// 	if err != nil {
+	// 		fmt.Println(err)
+	// 		return
+	// 	}
+		
+	// 	defer file.Close()
+	// 	stderr = file
+		
+	// }
+	if cmd.StderrRedirect != "" {
+		var file *os.File
+		var err error
+
+		if cmd.StderrAppend {
+			file, err = os.OpenFile(
+				cmd.StderrRedirect,
+				os.O_CREATE|os.O_WRONLY|os.O_APPEND,
+				0644,
+			)
+		} else {
+			file, err = os.Create(cmd.StderrRedirect)
+		}
+
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		
+
 		defer file.Close()
 		stderr = file
-		
 	}
 
 
