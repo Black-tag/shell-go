@@ -17,7 +17,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 	
 	
 
-	if cmd.StdoutRedirect != "" || cmd.StderrRedirect  != ""{
+	if cmd.StdoutRedirect != "" {
 		file, err := os.Create(cmd.StdoutRedirect)
 		if err != nil {
 			fmt.Println(err)
@@ -39,11 +39,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		stderr = file
 		
 	}
-	// fmt.Printf(
-    // "stdout=%q stderr=%q\n",
-    // cmd.StdoutRedirect,
-    // cmd.StderrRedirect,
-	// )
+
 
 
 		
