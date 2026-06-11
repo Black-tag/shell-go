@@ -13,6 +13,7 @@ var Builtins = map[string]bool{
 	"type": true,
 	"pwd": true,
 	"cd": true,
+	"jobs": true,
 
 }
 
