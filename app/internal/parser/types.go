@@ -7,4 +7,5 @@ type Command struct {
 	StderrRedirect string
 	StdoutAppend bool
 	StderrAppend bool
+	IsBackgorund bool
 }

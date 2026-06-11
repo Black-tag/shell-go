@@ -67,8 +67,17 @@ func Parse(input string) Command {
 	var stderrRedirect string
 	var stdoutAppend bool
 	var stderrAppend bool
+	var isBackGround bool
+
+	if tokens[len(tokens)-1] == "&" {
+		isBackGround = true
+		tokens = tokens[:len(tokens)-2]
+
+	}
 
 	for i := 0; i < len(tokens); i++ {
+
+		
 
 		switch tokens[i] {
 
@@ -117,6 +126,7 @@ func Parse(input string) Command {
 		StderrRedirect: stderrRedirect,
 		StdoutAppend: stdoutAppend,
 		StderrAppend: stderrAppend,
+		IsBackgorund: isBackGround,
 	}
 
 }

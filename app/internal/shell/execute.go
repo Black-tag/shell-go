@@ -15,6 +15,40 @@ func (s *Shell) Execute(cmd parser.Command) {
 	var stderr io.Writer = os.Stderr
 	
 	
+
+	if cmd.IsBackgorund {
+
+		command := exec.Command(cmd.Name, cmd.Args...)
+
+		command.Stdout = stdout
+		command.Stderr = stderr
+		command.Stdin = os.Stdin
+
+		err := command.Start()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		job := &Job{
+			ID: s.NextJobID,
+			PID: command.Process.Pid,
+			Command: cmd.Name,
+			Done: false,
+		}
+		s.Jobs = append(s.Jobs, job)
+		s.NextJobID++
+		fmt.Printf("[%d] %d\n", job.ID, job.PID)
+
+		go func(j *Job, c *exec.Cmd) {
+			err := c.Wait()
+			if err != nil {
+				j.Done = true
+			}
+		}(job, command)
+		
+	}
+	
 	
 
 	if cmd.StdoutRedirect != "" {
@@ -90,8 +124,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 	case "type":
 		builtins.Type(cmd.Args)
 
-	case "jobs":
-		return
+	
 
 	default:
 		// run external command
