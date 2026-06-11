@@ -46,6 +46,8 @@ func (s *Shell) Execute(cmd parser.Command) {
 				j.Done = true
 			}
 		}(job, command)
+
+		return
 		
 	}
 	
