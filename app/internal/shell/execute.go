@@ -122,6 +122,8 @@ func (s *Shell) Execute(cmd parser.Command) {
 			return
 		}
 		fmt.Println(pwd)
+	case "jobs":
+		return
 
 	case "type":
 		builtins.Type(cmd.Args)
