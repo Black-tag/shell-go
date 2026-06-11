@@ -71,7 +71,7 @@ func Parse(input string) Command {
 
 	if tokens[len(tokens)-1] == "&" {
 		isBackGround = true
-		tokens = tokens[:len(tokens)-2]
+		tokens = tokens[:len(tokens)-1]
 
 	}
 
