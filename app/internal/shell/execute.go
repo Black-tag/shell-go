@@ -17,17 +17,6 @@ func (s *Shell) Execute(cmd parser.Command) {
 	
 	
 
-	// if cmd.StdoutRedirect != "" {
-	// 	file, err := os.Create(cmd.StdoutRedirect)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 		return
-	// 	}
-		
-	// 	defer file.Close()
-	// 	stdout = file
-		
-	// }
 	if cmd.StdoutRedirect != "" {
 		var file *os.File
 		var err error
@@ -50,17 +39,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		defer file.Close()
 		stdout = file
 	}
-	// if cmd.StderrRedirect  != ""{
-	// 	file, err := os.Create(cmd.StderrRedirect)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 		return
-	// 	}
-		
-	// 	defer file.Close()
-	// 	stderr = file
-		
-	// }
+	
 	if cmd.StderrRedirect != "" {
 		var file *os.File
 		var err error
@@ -110,6 +89,9 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 	case "type":
 		builtins.Type(cmd.Args)
+
+	case "jobs":
+		return
 
 	default:
 		// run external command
