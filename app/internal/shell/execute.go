@@ -34,7 +34,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 			ID: s.NextJobID,
 			PID: command.Process.Pid,
 			Command: cmd.Name,
-			Done: false,
+			Status: "Running",
 		}
 		s.Jobs = append(s.Jobs, job)
 		s.NextJobID++
@@ -43,7 +43,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		go func(j *Job, c *exec.Cmd) {
 			err := c.Wait()
 			if err != nil {
-				j.Done = true
+				j.Status = "Running"
 			}
 		}(job, command)
 
@@ -122,11 +122,14 @@ func (s *Shell) Execute(cmd parser.Command) {
 			return
 		}
 		fmt.Println(pwd)
-	case "jobs":
-		return
+	// case "jobs":
+	// 	return
 
 	case "type":
 		builtins.Type(cmd.Args)
+	
+	case "jobs":
+    	s.Jobs(cmd.Args)
 
 	
 
