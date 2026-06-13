@@ -40,14 +40,14 @@ func (s *Shell) Execute(cmd parser.Command) {
 		s.NextJobID++
 		fmt.Printf("[%d] %d\n", job.ID, job.PID)
 
-		go func(j *Job, c *exec.Cmd) {
-			err := c.Wait()
-			if err != nil {
-				j.Status = "Running"
-			}
-		}(job, command)
+		// go func(j *Job, c *exec.Cmd) {
+		// 	err := c.Wait()
+		// 	if err != nil {
+		// 		j.Status = "Running"
+		// 	}
+		// }(job, command)
 
-		return
+		// return
 		
 	}
 	
