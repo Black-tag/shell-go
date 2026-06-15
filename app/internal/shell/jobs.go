@@ -20,8 +20,7 @@ func (s *Shell)jobs(args []string) {
 			"[%d]+  %-24s%s%s\n",
 			job.ID,
 			job.Status,
-			job.Command,
-			args
+			job.Command
 		)
 	}
 }
