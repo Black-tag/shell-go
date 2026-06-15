@@ -2,6 +2,8 @@ package shell
 
 
 
+
+
 type Shell struct{
 	Jobs []*Job
 	NextJobID int

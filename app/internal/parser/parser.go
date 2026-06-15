@@ -1,7 +1,7 @@
 package parser
 
 import (
-	
+	"fmt"
 	"strings"
 )
 
@@ -72,6 +72,7 @@ func Parse(input string) Command {
 	if tokens[len(tokens)-1] == "&" {
 		isBackGround = true
 		tokens = tokens[:len(tokens)-1]
+		fmt.Print(tokens)
 
 	}
 
