@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"fmt"
+	// "fmt"
 	"strings"
 )
 
@@ -69,12 +69,15 @@ func Parse(input string) Command {
 	var stderrAppend bool
 	var isBackGround bool
 
+	// fmt.Printf("TOKENS BEFORE: %#v\n", tokens)
 	if tokens[len(tokens)-1] == "&" {
 		isBackGround = true
 		tokens = tokens[:len(tokens)-1]
 		// fmt.Print(tokens)
+		// fmt.Print("inside is_Background == true")
 
 	}
+	// fmt.Printf("TOKENS AFTER: %#v\n", tokens)
 
 	for i := 0; i < len(tokens); i++ {
 
@@ -120,7 +123,7 @@ func Parse(input string) Command {
 	
 
 
-	return Command{
+	command := Command{
 		Name: args[0],
 		Args: args[1:],
 		StdoutRedirect: stdoutRedirect,
@@ -129,5 +132,7 @@ func Parse(input string) Command {
 		StderrAppend: stderrAppend,
 		IsBackgorund: isBackGround,
 	}
+	// fmt.Printf("returning command %s, %s", command.Name, command.Args)
+	return command
 
 }
