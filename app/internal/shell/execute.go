@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/codecrafters-io/shell-starter-go/app/internal/builtins"
 	"github.com/codecrafters-io/shell-starter-go/app/internal/parser"
@@ -34,7 +35,11 @@ func (s *Shell) Execute(cmd parser.Command) {
 		job := &Job{
 			ID: s.NextJobID,
 			PID: command.Process.Pid,
-			Command: cmd.Name,
+			// Command: cmd.Name,
+			Command: strings.Join(
+       			append([]string{cmd.Name}, cmd.Args...),
+        		" ",
+			) + " &",
 			Status: "Running",
 		}
 		s.Jobs = append(s.Jobs, job)
