@@ -5,16 +5,13 @@ import (
 	"os/exec"
 )
 
-
-
 var Builtins = map[string]bool{
 	"echo": true,
 	"exit": true,
 	"type": true,
-	"pwd": true,
-	"cd": true,
+	"pwd":  true,
+	"cd":   true,
 	"jobs": true,
-
 }
 
 func Type(args []string) {

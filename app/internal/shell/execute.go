@@ -14,13 +14,10 @@ import (
 func (s *Shell) Execute(cmd parser.Command) {
 	var stdout io.Writer = os.Stdout
 	var stderr io.Writer = os.Stderr
-	
-	
 
 	if cmd.IsBackgorund {
 
 		command := exec.Command(cmd.Name, cmd.Args...)
-		
 
 		command.Stdout = stdout
 		command.Stderr = stderr
@@ -33,35 +30,32 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 
 		job := &Job{
-			ID: s.NextJobID,
+			ID:  s.NextJobID,
 			PID: command.Process.Pid,
 			Command: strings.Join(
-       			append([]string{cmd.Name}, cmd.Args...),
-        		" ",
+				append([]string{cmd.Name}, cmd.Args...),
+				" ",
 			) + " &",
 			Status: "Running",
 		}
 		s.Jobs = append(s.Jobs, job)
 		s.NextJobID++
 		fmt.Printf("[%d] %d\n", job.ID, job.PID)
-		
 
 		go func(j *Job, c *exec.Cmd) {
-			
+
 			err := c.Wait()
-			
+
 			if err != nil {
 				fmt.Println("process failed:", err)
 				j.Status = "Running"
 			}
-			
+
 		}(job, command)
 
 		return
-		
+
 	}
-	
-	
 
 	if cmd.StdoutRedirect != "" {
 		var file *os.File
@@ -85,7 +79,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		defer file.Close()
 		stdout = file
 	}
-	
+
 	if cmd.StderrRedirect != "" {
 		var file *os.File
 		var err error
@@ -108,10 +102,6 @@ func (s *Shell) Execute(cmd parser.Command) {
 		defer file.Close()
 		stderr = file
 	}
-
-
-
-		
 
 	switch cmd.Name {
 
@@ -137,12 +127,10 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 	case "type":
 		builtins.Type(cmd.Args)
-	
+
 	case "jobs":
 		// fmt.Print("switching case inside jobs")
-    	s.jobs(cmd.Args)
-
-	
+		s.jobs(cmd.Args)
 
 	default:
 		// run external command
@@ -155,8 +143,6 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 		command := exec.Command(cmd.Name, cmd.Args...)
 
-		
-		
 		command.Stdout = stdout
 		command.Stderr = stderr
 		command.Stdin = os.Stdin

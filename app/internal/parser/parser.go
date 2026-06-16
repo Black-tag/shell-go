@@ -8,13 +8,12 @@ import (
 func Parse(input string) Command {
 	var tokens []string
 	var current strings.Builder
-	
 
 	inSingleQuotes := false
 	inDoubleQuotes := false
 
-	for i := 0; i< len(input); i++ {
-		
+	for i := 0; i < len(input); i++ {
+
 		ch := rune(input[i])
 
 		switch {
@@ -50,8 +49,6 @@ func Parse(input string) Command {
 					current.WriteRune('\\')
 				}
 			}
-		
-			
 
 		default:
 			current.WriteRune(ch)
@@ -69,18 +66,13 @@ func Parse(input string) Command {
 	var stderrAppend bool
 	var isBackGround bool
 
-	
 	if tokens[len(tokens)-1] == "&" {
 		isBackGround = true
 		tokens = tokens[:len(tokens)-1]
-		
 
 	}
-	
 
 	for i := 0; i < len(tokens); i++ {
-
-		
 
 		switch tokens[i] {
 
@@ -110,7 +102,6 @@ func Parse(input string) Command {
 			}
 			i++
 
-
 		default:
 			args = append(args, tokens[i])
 		}
@@ -119,19 +110,17 @@ func Parse(input string) Command {
 	if len(args) == 0 {
 		return Command{}
 	}
-	
-
 
 	command := Command{
-		Name: args[0],
-		Args: args[1:],
+		Name:           args[0],
+		Args:           args[1:],
 		StdoutRedirect: stdoutRedirect,
 		StderrRedirect: stderrRedirect,
-		StdoutAppend: stdoutAppend,
-		StderrAppend: stderrAppend,
-		IsBackgorund: isBackGround,
+		StdoutAppend:   stdoutAppend,
+		StderrAppend:   stderrAppend,
+		IsBackgorund:   isBackGround,
 	}
-	
+
 	return command
 
 }

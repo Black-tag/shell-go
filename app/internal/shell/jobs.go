@@ -2,48 +2,43 @@ package shell
 
 import "fmt"
 
-
-
-
 type Job struct {
-	ID int
-	PID int
+	ID      int
+	PID     int
 	Command string
-	Status string
-
+	Status  string
 }
 
+func (s *Shell) jobs(args []string) {
+	for i, job := range s.Jobs {
+		jobCount := len(s.Jobs)
 
-
-
-func (s *Shell)jobs(args []string) {
-	for _, job := range s.Jobs {
-		if job.ID == len(s.Jobs)-1 {
+		switch i {
+		case jobCount - 1:
 			fmt.Printf(
-			"[%d]+  %-24s%s\n",
-			job.ID,
-			job.Status,
-			job.Command,
-			)
-		}else if job.ID == len(s.Jobs)-2 {
-			fmt.Printf(
-			"[%d]-  %-24s%s\n",
-			job.ID,
-			job.Status,
-			job.Command,
+				"[%d]+  %-24s%s\n",
+				job.ID,
+				job.Status,
+				job.Command,
 			)
 
-		}else {
+		case jobCount - 2:
 			fmt.Printf(
-			"[%d]  %-24s%s\n",
-			job.ID,
-			job.Status,
-			job.Command,
+				"[%d]-  %-24s%s\n",
+				job.ID,
+				job.Status,
+				job.Command,
+			)
+
+		default:
+			fmt.Printf(
+				"[%d]  %-24s%s\n",
+				job.ID,
+				job.Status,
+				job.Command,
 			)
 
 		}
-		
-		
+
 	}
 }
-

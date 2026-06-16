@@ -1,18 +1,13 @@
 package shell
 
-
-
-
-
-type Shell struct{
-	Jobs []*Job
+type Shell struct {
+	Jobs      []*Job
 	NextJobID int
 }
 
 func New() *Shell {
 	return &Shell{
-		Jobs: []*Job{},
+		Jobs:      []*Job{},
 		NextJobID: 1,
-
 	}
 }
