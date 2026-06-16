@@ -20,7 +20,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 	if cmd.IsBackgorund {
 
 		command := exec.Command(cmd.Name, cmd.Args...)
-		// fmt.Printf("inside executor with command %s", command)
+		
 
 		command.Stdout = stdout
 		command.Stderr = stderr
@@ -35,7 +35,6 @@ func (s *Shell) Execute(cmd parser.Command) {
 		job := &Job{
 			ID: s.NextJobID,
 			PID: command.Process.Pid,
-			// Command: cmd.Name,
 			Command: strings.Join(
        			append([]string{cmd.Name}, cmd.Args...),
         		" ",
@@ -45,18 +44,17 @@ func (s *Shell) Execute(cmd parser.Command) {
 		s.Jobs = append(s.Jobs, job)
 		s.NextJobID++
 		fmt.Printf("[%d] %d\n", job.ID, job.PID)
-		// fmt.Printf("Background? %v\n", cmd.IsBackgorund)
-		// fmt.Printf("Args: %#v\n", cmd.Args)
+		
 
 		go func(j *Job, c *exec.Cmd) {
-			// fmt.Println("goroutine started")
+			
 			err := c.Wait()
-			// fmt.Println("Wait returned")
+			
 			if err != nil {
 				fmt.Println("process failed:", err)
 				j.Status = "Running"
 			}
-			// fmt.Println("process completed")
+			
 		}(job, command)
 
 		return
