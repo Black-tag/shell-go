@@ -58,12 +58,7 @@ func (s *Shell) jobs(args []string) {
 		}
 		if job.Status == "Done" {
         	doneIndexes = append(doneIndexes, i)
-			fmt.Printf(
-				"[%d]+  %-24s%s\n",
-				job.ID,
-				job.Status,
-				job.Command,
-			)
+			
         }
 
 	}
