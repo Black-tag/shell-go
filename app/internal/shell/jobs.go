@@ -1,6 +1,9 @@
 package shell
 
-import "fmt"
+import (
+	"fmt"
+	
+)
 
 type Job struct {
 	ID      int
@@ -12,6 +15,14 @@ type Job struct {
 func (s *Shell) jobs(args []string) {
 	for i, job := range s.Jobs {
 		jobCount := len(s.Jobs)
+		if job.Status == "Done" {
+			fmt.Printf(
+				"[%d]+  %-24s%s\n",
+				job.ID,
+				job.Status,
+				job.Command,
+			)
+		}
 
 		switch i {
 		case jobCount - 1:

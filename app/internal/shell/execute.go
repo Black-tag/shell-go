@@ -50,6 +50,8 @@ func (s *Shell) Execute(cmd parser.Command) {
 				fmt.Println("process failed:", err)
 				j.Status = "Running"
 			}
+			job.Command = strings.TrimSuffix(job.Command, " &")
+			j.Status = "Done"
 
 		}(job, command)
 
