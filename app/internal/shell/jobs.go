@@ -13,7 +13,7 @@ type Job struct {
 
 func (s *Shell) Job() {
 
-	
+	s.ReapJobs()
 	jobCount := len(s.Jobs)
 
 	for i, job := range s.Jobs {
@@ -46,43 +46,43 @@ func (s *Shell) Job() {
 		}
 
 	}
-	s.ReapJobs()
+	
 
 }
 
 // func (s *Shell) ReapJobs() {
 
 // 	var doneIndexes []int
-	// jobCount := len(s.Jobs)
-	// fmt.Println("before reap:", len(s.Jobs))
+// 	jobCount := len(s.Jobs)
+// 	fmt.Println("before reap:", len(s.Jobs))
 
 // 	for i, job := range s.Jobs {
 // 		if job.Status == "Done" {
 // 			doneIndexes = append(doneIndexes, i)
-// 			// switch i {
-// 			// case jobCount - 1:
-// 			// 	fmt.Printf(
-// 			// 		"[%d]+  %-24s%s\n",
-// 			// 		job.ID,
-// 			// 		job.Status,
-// 			// 		job.Command,
-// 			// 	)
+// 			switch i {
+// 			case jobCount - 1:
+// 				fmt.Printf(
+// 					"[%d]+  %-24s%s\n",
+// 					job.ID,
+// 					job.Status,
+// 					job.Command,
+// 				)
 
-// 			// case jobCount - 2:
-// 			// 	fmt.Printf(
-// 			// 		"[%d]-  %-24s%s\n",
-// 			// 		job.ID,
-// 			// 		job.Status,
-// 			// 		job.Command,
-// 			// 	)
+// 			case jobCount - 2:
+// 				fmt.Printf(
+// 					"[%d]-  %-24s%s\n",
+// 					job.ID,
+// 					job.Status,
+// 					job.Command,
+// 				)
 
-// 			// default:
-// 			// 	fmt.Printf(
-// 			// 		"[%d]  %-24s%s\n",
-// 			// 		job.ID,
-// 			// 		job.Status,
-// 			// 		job.Command,
-// 			// 	)
+// 			default:
+// 				fmt.Printf(
+// 					"[%d]  %-24s%s\n",
+// 					job.ID,
+// 					job.Status,
+// 					job.Command,
+// 				)
 
 // 			}
 
