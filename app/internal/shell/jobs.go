@@ -11,20 +11,10 @@ type Job struct {
 	Status  string
 }
 
-func (s *Shell) jobs(args []string) {
+func (s *Shell) Job() {
+	
 	var doneIndexes []int
 
-	// for i:=0; i < len(s.Jobs)-1; i++ {
-	// 	if job.Status == "Done" {
-	// 		fmt.Printf(
-	// 			"[%d]+  %-24s%s\n",
-	// 			job.ID,
-	// 			job.Status,
-	// 			job.Command,
-	// 		)
-	// 	}
-
-	// }
 	jobCount := len(s.Jobs)
 
 	for i, job := range s.Jobs {

@@ -132,7 +132,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 	case "jobs":
 		// fmt.Print("switching case inside jobs")
-		s.jobs(cmd.Args)
+		s.Job()
 
 	default:
 		// run external command

@@ -17,6 +17,7 @@ func main() {
 	sh := shell.New()
 
 	for {
+		sh.Job()
 		fmt.Print("$ ")
 
 		input, err := reader.ReadString('\n')
