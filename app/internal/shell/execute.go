@@ -40,7 +40,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 		s.Jobs = append(s.Jobs, job)
 		s.NextJobID++
-		fmt.Printf("[%d] %d\n", job.ID, job.PID)
+		// fmt.Printf("[%d] %d\n", job.ID, job.PID)
 
 		go func(j *Job, c *exec.Cmd) {
 
