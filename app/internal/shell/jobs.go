@@ -103,6 +103,12 @@ func (s *Shell) ReapJobs() {
 
     for i, job := range s.Jobs {
         if job.Status == "Done" {
+				fmt.Printf(
+					"[%d]  %-24s%s\n",
+					job.ID,
+					job.Status,
+					job.Command,
+				)
             doneIndexes = append(doneIndexes, i)
         }
     }
