@@ -17,7 +17,7 @@ func main() {
 	sh := shell.New()
 
 	for {
-		sh.Job()
+		sh.ReapJobs()
 		fmt.Print("$ ")
 
 		input, err := reader.ReadString('\n')
