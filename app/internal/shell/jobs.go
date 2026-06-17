@@ -35,13 +35,13 @@ func (s *Shell) Job() {
 				job.Command,
 			)
 
-		default:
-			fmt.Printf(
-				"[%d]  %-24s%s\n",
-				job.ID,
-				job.Status,
-				job.Command,
-			)
+		// default:
+		// 	fmt.Printf(
+		// 		"[%d]  %-24s%s\n",
+		// 		job.ID,
+		// 		job.Status,
+		// 		job.Command,
+		// 	)
 
 		}
 
