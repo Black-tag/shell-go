@@ -19,14 +19,16 @@ func main() {
 	for {
 		
 		fmt.Print("$ ")
-		sh.ReapJobs()
+		
 
 		input, err := reader.ReadString('\n')
 		if err != nil {
 			os.Exit(1)
 		}
+		
 
 		cmd := parser.Parse(strings.TrimSpace(input))
+		sh.ReapJobs()
 
 		if cmd.Name == "" {
 			continue
