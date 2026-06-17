@@ -13,7 +13,7 @@ type Job struct {
 
 func (s *Shell) Job() {
 
-	s.ReapJobs()
+	
 	jobCount := len(s.Jobs)
 
 	for i, job := range s.Jobs {
@@ -46,6 +46,7 @@ func (s *Shell) Job() {
 		}
 
 	}
+	s.ReapJobs()
 
 }
 
@@ -53,7 +54,7 @@ func (s *Shell) ReapJobs() {
 
 	var doneIndexes []int
 	jobCount := len(s.Jobs)
-	fmt.Println("before reap:", len(s.Jobs))
+	// fmt.Println("before reap:", len(s.Jobs))
 
 	for i, job := range s.Jobs {
 		if job.Status == "Done" {
@@ -88,11 +89,11 @@ func (s *Shell) ReapJobs() {
 		}
 
 	}
-	fmt.Println("removing:", doneIndexes)
+	// fmt.Println("removing:", doneIndexes)
 	for i := len(doneIndexes) - 1; i >= 0; i-- {
 		idx := doneIndexes[i]
 		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
 	}
-	fmt.Println("after reap:", len(s.Jobs))
+	// fmt.Println("after reap:", len(s.Jobs))
 
 }
