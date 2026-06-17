@@ -35,13 +35,13 @@ func (s *Shell) Job() {
 				job.Command,
 			)
 
-		// default:
-		// 	fmt.Printf(
-		// 		"[%d]  %-24s%s\n",
-		// 		job.ID,
-		// 		job.Status,
-		// 		job.Command,
-		// 	)
+		default:
+			fmt.Printf(
+				"[%d]  %-24s%s\n",
+				job.ID,
+				job.Status,
+				job.Command,
+			)
 
 		}
 
@@ -60,21 +60,21 @@ func (s *Shell) ReapJobs() {
 		if job.Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
 			switch i {
-			case jobCount - 1:
-				fmt.Printf(
-					"[%d]+  %-24s%s\n",
-					job.ID,
-					job.Status,
-					job.Command,
-				)
+			// case jobCount - 1:
+			// 	fmt.Printf(
+			// 		"[%d]+  %-24s%s\n",
+			// 		job.ID,
+			// 		job.Status,
+			// 		job.Command,
+			// 	)
 
-			case jobCount - 2:
-				fmt.Printf(
-					"[%d]-  %-24s%s\n",
-					job.ID,
-					job.Status,
-					job.Command,
-				)
+			// case jobCount - 2:
+			// 	fmt.Printf(
+			// 		"[%d]-  %-24s%s\n",
+			// 		job.ID,
+			// 		job.Status,
+			// 		job.Command,
+			// 	)
 
 			default:
 				fmt.Printf(
