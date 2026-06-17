@@ -28,12 +28,13 @@ func main() {
 		
 
 		cmd := parser.Parse(strings.TrimSpace(input))
-		sh.ReapJobs()
+		
 
 		if cmd.Name == "" {
 			continue
 		}
 		sh.Execute(cmd)
+		sh.ReapJobs()
 		
 	}
 
