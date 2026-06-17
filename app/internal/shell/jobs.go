@@ -14,7 +14,7 @@ type Job struct {
 func (s *Shell) Job() {
 	
 	
-
+	s.ReapJobs()
 	jobCount := len(s.Jobs)
 
 	for i, job := range s.Jobs {
