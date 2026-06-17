@@ -17,7 +17,7 @@ func main() {
 	sh := shell.New()
 
 	for {
-		
+		sh.ReapJobs()
 		fmt.Print("$ ")
 		
 
@@ -34,7 +34,7 @@ func main() {
 			continue
 		}
 		sh.Execute(cmd)
-		sh.ReapJobs()
+		
 		
 	}
 
