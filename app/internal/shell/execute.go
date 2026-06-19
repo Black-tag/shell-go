@@ -38,8 +38,10 @@ func (s *Shell) Execute(cmd parser.Command) {
 			) + " &",
 			Status: "Running",
 		}
+		s.mu.Lock()
 		s.Jobs = append(s.Jobs, job)
 		s.NextJobID++
+		s.mu.Unlock()
 		fmt.Printf("[%d] %d\n", job.ID, job.PID)
 
 		go func(j *Job, c *exec.Cmd) {

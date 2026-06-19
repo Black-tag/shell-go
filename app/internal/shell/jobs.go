@@ -15,6 +15,7 @@ func (s *Shell) Job() {
 
 	s.mu.Lock()
     defer s.mu.Unlock()
+	// fmt.Println("FROM JOB")
 
 	// s.ReapJobs()
 	jobCount := len(s.Jobs)
@@ -57,6 +58,7 @@ func (s *Shell) ReapJobs() {
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	// fmt.Println("FROM REAPJOB")
 	
 	var doneIndexes []int
 	jobCount := len(s.Jobs)
