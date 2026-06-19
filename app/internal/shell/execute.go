@@ -45,13 +45,15 @@ func (s *Shell) Execute(cmd parser.Command) {
 		go func(j *Job, c *exec.Cmd) {
 
 			err := c.Wait()
+			s.mu.Lock()
 
 			if err != nil {
 				fmt.Println("process failed:", err)
 				j.Status = "Running"
 			}
-			job.Command = strings.TrimSuffix(job.Command, " &")
+			j.Command = strings.TrimSuffix(job.Command, " &")
 			j.Status = "Done"
+			s.mu.Unlock()
 
 		}(job, command)
 

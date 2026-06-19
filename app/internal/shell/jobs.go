@@ -52,6 +52,8 @@ func (s *Shell) Job() {
 
 func (s *Shell) ReapJobs() {
 
+	s.mu.Lock()
+
 	var doneIndexes []int
 	jobCount := len(s.Jobs)
 	// fmt.Println("before reap:", len(s.Jobs))
@@ -87,34 +89,17 @@ func (s *Shell) ReapJobs() {
 			}
 
 		}
+	
 
 	}
+	
 	// fmt.Println("removing:", doneIndexes)
 	for i := len(doneIndexes) - 1; i >= 0; i-- {
 		idx := doneIndexes[i]
 		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
 	}
 	// fmt.Println("after reap:", len(s.Jobs))
-
+	s.mu.Unlock()
 }
 
-// func (s *Shell) ReapJobs() {
-//     var doneIndexes []int
 
-//     for i, job := range s.Jobs {
-//         if job.Status == "Done" {
-// 			fmt.Printf(
-// 				"[%d]  %-24s%s\n",
-// 				job.ID,
-// 				job.Status,
-// 				job.Command,
-// 			)
-//             doneIndexes = append(doneIndexes, i)
-//         }
-//     }
-
-//     for i := len(doneIndexes)-1; i >= 0; i-- {
-//         idx := doneIndexes[i]
-//         s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
-//     }
-// }
