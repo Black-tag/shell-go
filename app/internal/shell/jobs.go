@@ -63,7 +63,7 @@ func (s *Shell) ReapJobs() {
 	// fmt.Println("before reap:", len(s.Jobs))
 
 	for i, job := range s.Jobs {
-		fmt.Println("REAPING", job.ID)
+		// fmt.Println("REAPING", job.ID)
 		if job.Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
 			switch i {
