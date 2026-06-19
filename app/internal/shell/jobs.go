@@ -16,6 +16,7 @@ func (s *Shell) Job() {
 	s.mu.Lock()
     defer s.mu.Unlock()
 	// fmt.Println("FROM JOB")
+	var doneIndexes []int
 
 	// s.ReapJobs()
 	jobCount := len(s.Jobs)
@@ -48,8 +49,13 @@ func (s *Shell) Job() {
 			)
 
 		}
+		if job.Status == "Done" {
+        doneIndexes = append(doneIndexes, i)
+    }
+	
 
 	}
+	
 	
 
 }
