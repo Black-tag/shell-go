@@ -37,6 +37,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 				" ",
 			) + " &",
 			Status: "Running",
+			Cmd: *command,
 		}
 		s.mu.Lock()
 		s.Jobs = append(s.Jobs, job)

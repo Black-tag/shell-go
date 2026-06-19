@@ -2,6 +2,8 @@ package shell
 
 import (
 	"fmt"
+	"os/exec"
+	"strings"
 )
 
 type Job struct {
@@ -9,6 +11,7 @@ type Job struct {
 	PID     int
 	Command string
 	Status  string
+	Cmd     exec.Cmd
 }
 
 func (s *Shell) Job() {
@@ -72,6 +75,13 @@ func (s *Shell) ReapJobs() {
 
 	for i, job := range s.Jobs {
 		// fmt.Println("REAPING", job.ID)
+		if job.Status == "Running" &&
+           job.Cmd.ProcessState != nil &&
+           job.Cmd.ProcessState.Exited() {
+
+            job.Status = "Done"
+            job.Command = strings.TrimSuffix(job.Command, " &")
+        }
 		if job.Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
 			switch i {
