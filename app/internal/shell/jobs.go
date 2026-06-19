@@ -13,6 +13,9 @@ type Job struct {
 
 func (s *Shell) Job() {
 
+	s.mu.Lock()
+    defer s.mu.Unlock()
+
 	// s.ReapJobs()
 	jobCount := len(s.Jobs)
 
@@ -53,12 +56,14 @@ func (s *Shell) Job() {
 func (s *Shell) ReapJobs() {
 
 	s.mu.Lock()
-
+	defer s.mu.Unlock()
+	
 	var doneIndexes []int
 	jobCount := len(s.Jobs)
 	// fmt.Println("before reap:", len(s.Jobs))
 
 	for i, job := range s.Jobs {
+		fmt.Println("REAPING", job.ID)
 		if job.Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
 			switch i {
@@ -99,7 +104,7 @@ func (s *Shell) ReapJobs() {
 		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
 	}
 	// fmt.Println("after reap:", len(s.Jobs))
-	s.mu.Unlock()
+	// s.mu.Unlock()
 }
 
 
