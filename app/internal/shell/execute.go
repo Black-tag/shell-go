@@ -30,7 +30,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 
 		job := &Job{
-			ID:  s.NextJobID,
+			ID:  s.getNextJobID(),
 			PID: command.Process.Pid,
 			Command: strings.Join(
 				append([]string{cmd.Name}, cmd.Args...),
@@ -41,6 +41,10 @@ func (s *Shell) Execute(cmd parser.Command) {
 		}
 		s.mu.Lock()
 		s.Jobs = append(s.Jobs, job)
+		if len(s.Jobs) == 0 {
+			s.NextJobID = 1
+		}
+		
 		s.NextJobID++
 		s.mu.Unlock()
 		fmt.Printf("[%d] %d\n", job.ID, job.PID)
