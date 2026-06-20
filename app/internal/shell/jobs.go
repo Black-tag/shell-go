@@ -14,74 +14,67 @@ type Job struct {
 	Cmd     exec.Cmd
 }
 
-func (s *Shell) Job() {
+// func (s *Shell) Job() {
 
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	// fmt.Println("FROM JOB")
-	// var doneIndexes []int
+// 	s.mu.Lock()
+// 	defer s.mu.Unlock()
+// 	// fmt.Println("FROM JOB")
+// 	// var doneIndexes []int
 
-	// // s.ReapJobs()
-	var doneIndexes []int
-    for i := range s.Jobs {
-        if s.Jobs[i].Status == "Done" {
-            doneIndexes = append(doneIndexes, i)
-        }
-    }
-    for i := len(doneIndexes) - 1; i >= 0; i-- {
-        idx := doneIndexes[i]
-        s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
-    }
-	jobCount := len(s.Jobs)
-	// for i := len(doneIndexes) - 1; i >= 0; i-- {
-	// 	idx := doneIndexes[i]
-	// 	s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
-	// }
+// 	// // s.ReapJobs()
+// 	var doneIndexes []int
+//     for i := range s.Jobs {
+//         if s.Jobs[i].Status == "Done" {
+//             doneIndexes = append(doneIndexes, i)
+//         }
+//     }
+//     for i := len(doneIndexes) - 1; i >= 0; i-- {
+//         idx := doneIndexes[i]
+//         s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
+//     }
+// 	jobCount := len(s.Jobs)
+// 	// for i := len(doneIndexes) - 1; i >= 0; i-- {
+// 	// 	idx := doneIndexes[i]
+// 	// 	s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
+// 	// }
 
-	for i, job := range s.Jobs {
-		// if job.Status == "Done" {
-		// 	doneIndexes = append(doneIndexes, i)
-		// }
-		var marker string
-		if i == jobCount-1 {
-			marker = "+"
-		} else if jobCount > 2 && i == jobCount-2 {
-			marker = "-"
-		}
-		fmt.Printf("[%d]%-2s  %-24s%s\n", job.ID, marker, job.Status, job.Command)
+// 	for i, job := range s.Jobs {
+// 		// if job.Status == "Done" {
+// 		// 	doneIndexes = append(doneIndexes, i)
+// 		// }
+		
+// 		switch i {
+// 		case jobCount - 1:
+// 			fmt.Printf(
+// 				"[%d]+  %-24s%s\n",
+// 				job.ID,
+// 				job.Status,
+// 				job.Command,
+// 			)
 
-		switch i {
-		case jobCount - 1:
-			fmt.Printf(
-				"[%d]+  %-24s%s\n",
-				job.ID,
-				job.Status,
-				job.Command,
-			)
+// 		case jobCount - 2:
+// 			fmt.Printf(
+// 				"[%d]-  %-24s%s\n",
+// 				job.ID,
+// 				job.Status,
+// 				job.Command,
+// 			)
 
-		case jobCount - 2:
-			fmt.Printf(
-				"[%d]-  %-24s%s\n",
-				job.ID,
-				job.Status,
-				job.Command,
-			)
+// 		default:
+// 			fmt.Printf(
+// 				"[%d]  %-24s%s\n",
+// 				job.ID,
+// 				job.Status,
+// 				job.Command,
+// 			)
 
-		default:
-			fmt.Printf(
-				"[%d]  %-24s%s\n",
-				job.ID,
-				job.Status,
-				job.Command,
-			)
-
-		}
+// 		}
 		
 
-	}
+// 	}
 	
 
-}
+// }
 
 // func (s *Shell) ReapJobs() {
 
@@ -204,30 +197,88 @@ func (s *Shell) Job() {
 // 	}
 // }
 
+// func (s *Shell) ReapJobs() {
+//     s.mu.Lock()
+//     defer s.mu.Unlock()
+
+//     var doneIndexes []int
+//     jobCount := len(s.Jobs)
+
+//     for i := range s.Jobs {
+//         if s.Jobs[i].Status == "Done" {
+//             doneIndexes = append(doneIndexes, i)
+
+//             switch i {
+//             case jobCount - 1:
+//                 fmt.Printf("[%d]+  %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
+//             case jobCount - 2:
+//                 fmt.Printf("[%d]-  %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
+//             default:
+//                 fmt.Printf("[%d]   %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
+//             }
+//         }
+//     }
+
+//     for i := len(doneIndexes) - 1; i >= 0; i-- {
+//         idx := doneIndexes[i]
+//         s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
+//     }
+// }
+
+
+
+
+
+
+func (s *Shell) Job() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	var doneIndexes []int
+	for i := range s.Jobs {
+		if s.Jobs[i].Status == "Done" {
+			doneIndexes = append(doneIndexes, i)
+		}
+	}
+	for i := len(doneIndexes) - 1; i >= 0; i-- {
+		idx := doneIndexes[i]
+		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
+	}
+
+	jobCount := len(s.Jobs)
+	for i, job := range s.Jobs {
+		var marker string
+		if i == jobCount-1 {
+			marker = "+"
+		} else if i == jobCount-2 {
+			marker = "-"
+		}
+		fmt.Printf("[%d]%-2s  %-24s%s\n", job.ID, marker, job.Status, job.Command)
+	}
+}
+
 func (s *Shell) ReapJobs() {
-    s.mu.Lock()
-    defer s.mu.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
-    var doneIndexes []int
-    jobCount := len(s.Jobs)
+	var doneIndexes []int
+	jobCount := len(s.Jobs)
 
-    for i := range s.Jobs {
-        if s.Jobs[i].Status == "Done" {
-            doneIndexes = append(doneIndexes, i)
+	for i := range s.Jobs {
+		if s.Jobs[i].Status == "Done" {
+			doneIndexes = append(doneIndexes, i)
+			var marker string
+			if i == jobCount-1 {
+				marker = "+"
+			} else if i == jobCount-2 {
+				marker = "-"
+			}
+			fmt.Printf("[%d]%-2s  %-24s%s\n", s.Jobs[i].ID, marker, s.Jobs[i].Status, s.Jobs[i].Command)
+		}
+	}
 
-            switch i {
-            case jobCount - 1:
-                fmt.Printf("[%d]+  %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
-            case jobCount - 2:
-                fmt.Printf("[%d]-  %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
-            default:
-                fmt.Printf("[%d]   %-24s%s\n", s.Jobs[i].ID, s.Jobs[i].Status, s.Jobs[i].Command)
-            }
-        }
-    }
-
-    for i := len(doneIndexes) - 1; i >= 0; i-- {
-        idx := doneIndexes[i]
-        s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
-    }
+	for i := len(doneIndexes) - 1; i >= 0; i-- {
+		idx := doneIndexes[i]
+		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
+	}
 }
