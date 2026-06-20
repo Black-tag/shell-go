@@ -250,7 +250,7 @@ func (s *Shell) Job() {
 		var marker string
 		if i == jobCount-1 {
 			marker = "+"
-		} else if i == jobCount-2 {
+		} else if jobCount > 2 && i == jobCount-2 {
 			marker = "-"
 		}
 		fmt.Printf("[%d]%-2s  %-24s%s\n", job.ID, marker, job.Status, job.Command)
@@ -270,7 +270,7 @@ func (s *Shell) ReapJobs() {
 			var marker string
 			if i == jobCount-1 {
 				marker = "+"
-			} else if i == jobCount-2 {
+			} else if jobCount > 2 && i == jobCount-2 {
 				marker = "-"
 			}
 			fmt.Printf("[%d]%-2s  %-24s%s\n", s.Jobs[i].ID, marker, s.Jobs[i].Status, s.Jobs[i].Command)
