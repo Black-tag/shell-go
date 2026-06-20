@@ -42,6 +42,13 @@ func (s *Shell) Job() {
 		// if job.Status == "Done" {
 		// 	doneIndexes = append(doneIndexes, i)
 		// }
+		var marker string
+		if i == jobCount-1 {
+			marker = "+"
+		} else if jobCount > 2 && i == jobCount-2 {
+			marker = "-"
+		}
+		fmt.Printf("[%d]%-2s  %-24s%s\n", job.ID, marker, job.Status, job.Command)
 
 		switch i {
 		case jobCount - 1:
