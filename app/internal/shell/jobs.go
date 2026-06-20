@@ -68,7 +68,7 @@ func (s *Shell) ReapJobs() {
 
 	var doneIndexes []int
 	jobCount := len(s.Jobs)
-	fmt.Println("before reap:", len(s.Jobs))
+	// fmt.Println("before reap:", len(s.Jobs))
 
 	for i, job := range s.Jobs {
 		// fmt.Println("REAPING", job.ID)
