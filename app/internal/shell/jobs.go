@@ -42,7 +42,7 @@ type Job struct {
 // 		// if job.Status == "Done" {
 // 		// 	doneIndexes = append(doneIndexes, i)
 // 		// }
-		
+
 // 		switch i {
 // 		case jobCount - 1:
 // 			fmt.Printf(
@@ -69,10 +69,8 @@ type Job struct {
 // 			)
 
 // 		}
-		
 
 // 	}
-	
 
 // }
 
@@ -133,11 +131,10 @@ type Job struct {
 // 	}
 
 // 	// fmt.Println("removing:", doneIndexes)
-	
+
 // 	// fmt.Println("after reap:", len(s.Jobs))
 // 	// s.mu.Unlock()
 // }
-
 
 // func (s *Shell) ReapJobs() {
 // 	s.mu.Lock()
@@ -225,35 +222,16 @@ type Job struct {
 //     }
 // }
 
-
-
-
-
-
 func (s *Shell) Job() {
+	// Both reaping points share the same print-and-remove logic.
+	s.ReapJobs()
+
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	var doneIndexes []int
-	for i := range s.Jobs {
-		if s.Jobs[i].Status == "Done" {
-			doneIndexes = append(doneIndexes, i)
-		}
-	}
-	for i := len(doneIndexes) - 1; i >= 0; i-- {
-		idx := doneIndexes[i]
-		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
-	}
-
 	jobCount := len(s.Jobs)
 	for i, job := range s.Jobs {
-		var marker string
-		if i == jobCount-1 {
-			marker = "+"
-		} else if jobCount > 2 && i == jobCount-2 {
-			marker = "-"
-		}
-		fmt.Printf("[%d]%-2s  %-24s%s\n", job.ID, marker, job.Status, job.Command)
+		fmt.Printf("[%d]%s  %-24s%s\n", job.ID, jobMarker(i, jobCount), job.Status, job.Command)
 	}
 }
 
@@ -267,13 +245,7 @@ func (s *Shell) ReapJobs() {
 	for i := range s.Jobs {
 		if s.Jobs[i].Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
-			var marker string
-			if i == jobCount-1 {
-				marker = "+"
-			} else if jobCount > 2 && i == jobCount-2 {
-				marker = "-"
-			}
-			fmt.Printf("[%d]%-2s  %-24s%s\n", s.Jobs[i].ID, marker, s.Jobs[i].Status, s.Jobs[i].Command)
+			fmt.Printf("[%d]%s  %-24s%s\n", s.Jobs[i].ID, jobMarker(i, jobCount), s.Jobs[i].Status, s.Jobs[i].Command)
 		}
 	}
 
@@ -281,4 +253,14 @@ func (s *Shell) ReapJobs() {
 		idx := doneIndexes[i]
 		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
 	}
+}
+
+func jobMarker(index, jobCount int) string {
+	if index == jobCount-1 {
+		return "+"
+	}
+	if index == jobCount-2 {
+		return "-"
+	}
+	return " "
 }

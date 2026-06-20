@@ -66,6 +66,10 @@ func Parse(input string) Command {
 	var stderrAppend bool
 	var isBackGround bool
 
+	if len(tokens) == 0 {
+		return Command{}
+	}
+
 	if tokens[len(tokens)-1] == "&" {
 		isBackGround = true
 		tokens = tokens[:len(tokens)-1]
