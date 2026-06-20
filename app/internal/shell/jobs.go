@@ -78,13 +78,13 @@ func (s *Shell) ReapJobs() {
 
 			job.Status = "Done"
 			job.Command = strings.TrimSuffix(job.Command, " &")
-			fmt.Print("printing done inside 1")
+			// fmt.Print("printing done inside 1")
 		}
 		if job.Status == "Done" {
 			doneIndexes = append(doneIndexes, i)
 			switch i {
 			case jobCount - 1:
-				fmt.Print("printintg inside latest ")
+				// fmt.Print("printintg inside latest ")
 				fmt.Printf(
 					"[%d]+  %-24s%s\n",
 					job.ID,
