@@ -31,7 +31,7 @@ func main() {
 			continue
 		}
 		sh.Execute(cmd)
-
+		sh.ReapJobs()
 	}
 
 }

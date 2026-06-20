@@ -51,7 +51,6 @@ func (s *Shell) Execute(cmd parser.Command) {
 			j.Command = strings.TrimSuffix(j.Command, " &")
 			j.Status = "Done"
 			s.mu.Unlock()
-
 		}(job, command)
 
 		return

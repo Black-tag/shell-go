@@ -223,15 +223,22 @@ type Job struct {
 // }
 
 func (s *Shell) Job() {
-	// Both reaping points share the same print-and-remove logic.
-	s.ReapJobs()
-
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	jobCount := len(s.Jobs)
+	var doneIndexes []int
+
 	for i, job := range s.Jobs {
 		fmt.Printf("[%d]%s  %-24s%s\n", job.ID, jobMarker(i, jobCount), job.Status, job.Command)
+		if job.Status == "Done" {
+			doneIndexes = append(doneIndexes, i)
+		}
+	}
+
+	for i := len(doneIndexes) - 1; i >= 0; i-- {
+		idx := doneIndexes[i]
+		s.Jobs = append(s.Jobs[:idx], s.Jobs[idx+1:]...)
 	}
 }
 
