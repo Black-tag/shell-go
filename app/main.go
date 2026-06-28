@@ -28,7 +28,7 @@ func main() {
 		pipeline := parser.ParsePipeline(strings.TrimSpace(input))
 
 		if len(pipeline.Commands) == 1 {
-			sh.Execute(pipeline.Commands[0])
+			sh.Execute(pipeline.Commands[0], os.Stdin, os.Stdout, os.Stderr)
 			if pipeline.Commands[0].Name == "" {
 				continue
 			}

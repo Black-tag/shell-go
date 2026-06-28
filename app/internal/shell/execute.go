@@ -11,7 +11,11 @@ import (
 	"github.com/codecrafters-io/shell-starter-go/app/internal/parser"
 )
 
-func (s *Shell) Execute(cmd parser.Command) {
+func (s *Shell) Execute(
+	cmd parser.Command,
+	cstdin io.Reader,
+	cstdout io.Writer,
+	cstderr io.Writer) {
 	var stdout io.Writer = os.Stdout
 	var stderr io.Writer = os.Stderr
 
@@ -162,24 +166,34 @@ func (s *Shell)ExecutePipeline(pipeline parser.Pipeline) {
 	left := pipeline.Commands[0]
 	right := pipeline.Commands[1]
 
-	cmd1 := exec.Command(left.Name, left.Args...)
-	cmd2 := exec.Command(right.Name, right.Args...)
+	// cmd1 := exec.Command(left.Name, left.Args...)
+	// cmd2 := exec.Command(right.Name, right.Args...)
 
-	pipeReader, err := cmd1.StdoutPipe()
-	if err != nil {
-		return 
-	}
+	// pipeReader, err := cmd1.StdoutPipe()
+	// if err != nil {
+	// 	return 
+	// }
 
-	cmd2.Stdin = pipeReader
-	cmd1.Stdin = os.Stdin
-	cmd2.Stdout = os.Stdout
-	cmd1.Stderr = os.Stderr
-	cmd2.Stderr = os.Stderr
-	cmd1.Start()
-	cmd2.Start()
+	// cmd2.Stdin = pipeReader
+	// cmd1.Stdin = os.Stdin
+	// cmd2.Stdout = os.Stdout
+	// cmd1.Stderr = os.Stderr
+	// cmd2.Stderr = os.Stderr
+	// cmd1.Start()
+	// cmd2.Start()
 
-	cmd1.Wait()
-	cmd2.Wait()
+	// cmd1.Wait()
+	// cmd2.Wait()
+
+	r, w := io.Pipe()
+
+	go func ()  {
+		s.Execute(left, os.Stdin, w, os.Stderr)
+		w.Close()
+		
+	}()
+
+	s.Execute(right, r, os.Stdout, os.Stderr)
 	
 
 }
