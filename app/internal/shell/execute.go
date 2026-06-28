@@ -130,7 +130,7 @@ func (s *Shell) Execute(
 			fmt.Println(err)
 			return 
 		}
-		fmt.Println(stdout, pwd)
+		fmt.Fprintln(stdout, pwd)
 	// case "jobs":
 	// 	return
 
