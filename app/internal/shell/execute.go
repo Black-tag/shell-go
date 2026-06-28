@@ -16,8 +16,9 @@ func (s *Shell) Execute(
 	cstdin io.Reader,
 	cstdout io.Writer,
 	cstderr io.Writer) {
-	var stdout io.Writer = os.Stdout
-	var stderr io.Writer = os.Stderr
+	var stdin io.Reader = cstdin
+	var stdout io.Writer = cstdout
+	var stderr io.Writer = cstderr
 
 	if cmd.IsBackgorund {
 
@@ -25,7 +26,7 @@ func (s *Shell) Execute(
 
 		command.Stdout = stdout
 		command.Stderr = stderr
-		command.Stdin = os.Stdin
+		command.Stdin = stdin
 
 		err := command.Start()
 		if err != nil {
@@ -129,7 +130,7 @@ func (s *Shell) Execute(
 			fmt.Println(err)
 			return 
 		}
-		fmt.Println(pwd)
+		fmt.Println(stdout, pwd)
 	// case "jobs":
 	// 	return
 
@@ -153,7 +154,7 @@ func (s *Shell) Execute(
 
 		command.Stdout = stdout
 		command.Stderr = stderr
-		command.Stdin = os.Stdin
+		command.Stdin = stdin
 
 		command.Run()
 	}
