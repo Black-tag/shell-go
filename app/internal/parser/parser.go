@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func Parse(input string) Command {
+func ParseCommand(input string) Command {
 	var tokens []string
 	var current strings.Builder
 
@@ -126,5 +126,18 @@ func Parse(input string) Command {
 	}
 
 	return command
+
+}
+
+func ParsePipeline(input string) Pipeline {
+
+	segments := strings.Split(input, "|")
+	pipeline := Pipeline{}
+
+	for _, seg := range segments {
+		pipeline.Commands = append(pipeline.Commands, ParseCommand(seg))
+	}
+
+	return pipeline
 
 }

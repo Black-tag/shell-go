@@ -25,13 +25,24 @@ func main() {
 			os.Exit(1)
 		}
 
-		cmd := parser.Parse(strings.TrimSpace(input))
+		pipeline := parser.ParsePipeline(strings.TrimSpace(input))
 
-		if cmd.Name == "" {
-			continue
+		if len(pipeline.Commands) == 1 {
+			sh.Execute(pipeline.Commands[0])
+			if pipeline.Commands[0].Name == "" {
+				continue
+			}
+			sh.ReapJobs()
+		}else {
+			sh.ExecutePipeline(pipeline)
 		}
-		sh.Execute(cmd)
-		sh.ReapJobs()
+
+		// if cmd.Name == "" {
+		// 	continue
+		// }
+		// sh.Execute(cmd)
+		// sh.ReapJobs()
+		// sh.ExecutePipeline(pipeline)
 	}
 
 }

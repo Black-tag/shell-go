@@ -26,7 +26,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		err := command.Start()
 		if err != nil {
 			fmt.Println(err)
-			return
+			return 
 		}
 
 		job := &Job{
@@ -57,7 +57,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 			s.mu.Unlock()
 		}(job, command)
 
-		return
+		return 
 
 	}
 
@@ -77,7 +77,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		if err != nil {
 			fmt.Println(err)
-			return
+			return 
 		}
 
 		defer file.Close()
@@ -100,7 +100,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		if err != nil {
 			fmt.Println(err)
-			return
+			return 
 		}
 
 		defer file.Close()
@@ -123,7 +123,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 		pwd, err := builtins.Pwd()
 		if err != nil {
 			fmt.Println(err)
-			return
+			return 
 		}
 		fmt.Println(pwd)
 	// case "jobs":
@@ -142,7 +142,7 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		if err != nil {
 			fmt.Printf("%s: command not found\n", cmd.Name)
-			return
+			return 
 
 		}
 		command := exec.Command(cmd.Name, cmd.Args...)
@@ -153,5 +153,33 @@ func (s *Shell) Execute(cmd parser.Command) {
 
 		command.Run()
 	}
+
+}
+
+
+func (s *Shell)ExecutePipeline(pipeline parser.Pipeline) {
+
+	left := pipeline.Commands[0]
+	right := pipeline.Commands[1]
+
+	cmd1 := exec.Command(left.Name, left.Args...)
+	cmd2 := exec.Command(right.Name, right.Args...)
+
+	pipeReader, err := cmd1.StdoutPipe()
+	if err != nil {
+		return 
+	}
+
+	cmd2.Stdin = pipeReader
+	cmd1.Stdin = os.Stdin
+	cmd2.Stdout = os.Stdout
+	cmd1.Stderr = os.Stderr
+	cmd2.Stderr = os.Stderr
+	cmd1.Start()
+	cmd2.Start()
+
+	cmd1.Wait()
+	cmd2.Wait()
+	
 
 }
