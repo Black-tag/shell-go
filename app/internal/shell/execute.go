@@ -135,7 +135,7 @@ func (s *Shell) Execute(
 	// 	return
 
 	case "type":
-		builtins.Type(cmd.Args)
+		builtins.Type(cmd.Args , stdout)
 
 	case "jobs":
 		// fmt.Print("switching case inside jobs")
@@ -164,37 +164,36 @@ func (s *Shell) Execute(
 
 func (s *Shell)ExecutePipeline(pipeline parser.Pipeline) {
 
-	left := pipeline.Commands[0]
-	right := pipeline.Commands[1]
+	// left := pipeline.Commands[0]
+	// right := pipeline.Commands[1]
+	previousReader := io.Reader(os.Stdin)
 
-	// cmd1 := exec.Command(left.Name, left.Args...)
-	// cmd2 := exec.Command(right.Name, right.Args...)
+	for i, cmd := range pipeline.Commands {
+	
+		if i == len(pipeline.Commands)-1 {
+			s.Execute(cmd, previousReader, os.Stdout, os.Stderr)
+			break
+		}else {
+			r, w := io.Pipe()
 
-	// pipeReader, err := cmd1.StdoutPipe()
-	// if err != nil {
-	// 	return 
-	// }
+			
+			go func (
+				cmd parser.Command,
+				stdin io.Reader,
+				stdout *io.PipeWriter,
+			)  {
+				defer stdout.Close()
+				s.Execute(cmd, stdin, stdout, os.Stderr)
+				w.Close()
+				
+			}(cmd, previousReader, w)
+			previousReader = r
+		}
 
-	// cmd2.Stdin = pipeReader
-	// cmd1.Stdin = os.Stdin
-	// cmd2.Stdout = os.Stdout
-	// cmd1.Stderr = os.Stderr
-	// cmd2.Stderr = os.Stderr
-	// cmd1.Start()
-	// cmd2.Start()
+	}
 
-	// cmd1.Wait()
-	// cmd2.Wait()
 
-	r, w := io.Pipe()
-
-	go func ()  {
-		s.Execute(left, os.Stdin, w, os.Stderr)
-		w.Close()
-		
-	}()
-
-	s.Execute(right, r, os.Stdout, os.Stderr)
+	
 	
 
 }

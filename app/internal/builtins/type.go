@@ -3,6 +3,7 @@ package builtins
 import (
 	"fmt"
 	"os/exec"
+	"io"
 )
 
 var Builtins = map[string]bool{
@@ -14,7 +15,7 @@ var Builtins = map[string]bool{
 	"jobs": true,
 }
 
-func Type(args []string) {
+func Type(args []string, stdout io.Writer) {
 	target := args[0]
 
 	if Builtins[target] {
